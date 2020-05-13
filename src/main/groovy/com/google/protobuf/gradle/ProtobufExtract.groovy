@@ -79,6 +79,7 @@ class ProtobufExtract extends DefaultTask {
           includeEmptyDirs(false)
           from(file.path) {
             include '**/*.proto'
+            exclude { it.getFile().path.startsWith("${destDir}") }
           }
           into(destDir)
         }
@@ -94,7 +95,9 @@ class ProtobufExtract extends DefaultTask {
         }
         project.copy {
           includeEmptyDirs(false)
-          from(file.path)
+          from(file.path) {
+            exclude { it.getFile().path.startsWith("${destDir}") }
+          }
           into(destDir)
         }
       } else if (file.path.endsWith('.jar') || file.path.endsWith('.zip')) {
@@ -102,6 +105,7 @@ class ProtobufExtract extends DefaultTask {
           includeEmptyDirs(false)
           from(project.zipTree(file.path)) {
             include '**/*.proto'
+            exclude { it.getFile().path.startsWith("${destDir}") }
           }
           into(destDir)
         }
@@ -113,6 +117,7 @@ class ProtobufExtract extends DefaultTask {
           includeEmptyDirs(false)
           from(project.tarTree(file.path)) {
             include '**/*.proto'
+            exclude { it.getFile().path.startsWith("${destDir}") }
           }
           into(destDir)
         }
